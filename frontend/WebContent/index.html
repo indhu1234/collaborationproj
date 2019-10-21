@@ -1,0 +1,126 @@
+<html>
+<head>
+<title>Log In or Sign Up</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Resources/CSS/bootstrap.min.css">
+<link rel="stylesheet" href="Resources/CSS/styles.css">
+</head>
+<body ng-app="myApp" ng-controller="UserController">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+		<div class="container">
+			
+			<div id="loginContainer" style="text-align: center;">
+				<form class="form-inline" "
+				style="margin-bottom: unset;">
+					<input type="text" class="form-control form-control-sm m-1"
+						ng-model="user.username" placeholder="Username"> <input
+						type="password" class="form-control form-control-sm m-1"
+						placeholder="Password" ng-model="user.password">
+					<button type="submit"
+						class="form-control btn btn-primary btn-sm m-1"
+						ng-click="loginCheck()">Login</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container-fluid"
+		style="min-height: 600px; background-image: linear-gradient(#ffffff, #295977);">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="d-flex justify-content-end">
+						<div>
+							<h1 class="py-4">Create an account</h1>
+							<form id="registrationForm">
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<input id="firstName" class="form-control"
+												placeholder="First Name" type="text"
+												ng-model="registerUser.firstName" />
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-group">
+											<input id="lastName" class="form-control"
+												placeholder="Last Name" type="text"
+												ng-model="registerUser.lastName" />
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<input id="email" class="form-control" type="text"
+										placeholder="Email" ng-model="registerUser.email" />
+								</div>
+								<div class="form-group">
+									<input id="username" class="form-control" type="text"
+										placeholder="Username" ng-model="registerUser.username" />
+								</div>
+								<div class="row">
+									<div class="col">
+										<div class="form-group">
+											<input id="password" class="form-control" type="password"
+												placeholder="Password" ng-model="registerUser.password" />
+										</div>
+									</div>
+									<div class="col">
+										<div class="form-group">
+											<input id="confirmPassword" class="form-control"
+												type="password" ng-model="registerUser.confirmPassword"
+												placeholder="Confirm Password" />
+										</div>
+									</div>
+								</div>
+								<button class="form-control btn-success" type="submit"
+									ng-click="register()">Sign Up</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal fade" id="registrationSuccessfulModal">
+				<div class="modal-dialog modal modal-dialog-centered"">
+					<div class="modal-content alert alert-success"
+						style="background-color: #d4edda;">
+
+						<!-- Add Blog Modal body -->
+						<div class="modal-body">
+							<span><i class="far fa-check-circle"></i> You were
+								registered successfully. Login using your username and password.</span>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="Resources/JS/angular1.3.1.min.js"></script>
+	<script type="text/javascript" src="Resources/JS/angular-route1.3.1.js"></script>
+	<script type="text/javascript"
+		src="Resources/JS/angular-cookies1.3.1.js"></script>
+
+	<script type="text/javascript" src="RouteConfig.js"></script>
+	<script type="text/javascript" src="Controllers/UserController.js"></script>
+	<script type="text/javascript" src="Controllers/BlogController.js"></script>
+	<script type="text/javascript"
+		src="Controllers/BlogCommentController.js"></script>
+	<script type="text/javascript" src="Controllers/ForumController.js"></script>
+	<script type="text/javascript"
+		src="Controllers/ForumCommentController.js"></script>
+	<script type="text/javascript" src="Controllers/FriendController.js"></script>
+	<script type="text/javascript" src="Controllers/ChatController.js"></script>
+	<script type="text/javascript" src="Controllers/JobController.js"></script>
+
+	<script type="text/javascript" src="Pages/Chat/ChatService.js"></script>
+	<script src="Resources/JS/sockjs1.1.1.js"></script>
+	<script src="Resources/JS/lodash4.16.3.js"></script>
+	<script src="Resources/JS/stomp2.3.3.js"></script>
+	<script src="Resources/JS/jquery.min.js"></script>
+	<script src="Resources/JS/popper.min.js"></script>
+	<script src="Resources/JS/bootstrap.min.js"></script>
+</body>
+</html>

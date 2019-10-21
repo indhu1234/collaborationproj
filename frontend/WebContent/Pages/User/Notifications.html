@@ -1,0 +1,7 @@
+<div ng-controller="NotificationController">
+	<ol>
+		<li ng-repeat="notification in notificationList">{{notification.message}}
+		<input type="button" value="x" ng-click="deleteNotification(notification.notificationId)"/>
+		</li>
+	</ol>
+</div>

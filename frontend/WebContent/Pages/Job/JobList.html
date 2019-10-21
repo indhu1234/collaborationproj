@@ -1,0 +1,33 @@
+<div ng-controller="JobController" ng-init="getJobList()">
+	<ol>
+		<li ng-repeat="job in jobList" ng-show="job.jobStatus=='open'"><a
+			ng-click="showJob(job.jobId)" href="#/showJob">{{job.jobDesignation}}</a></li>
+	</ol>
+	<table>
+		<tr>
+			<th>My Job posts</th>
+		</tr>
+		<tr>
+			<th>Job Designation</th>
+			<th>Job Profile</th>
+			<th>Requirements</th>
+			<th>Job Description</th>
+			<th>Status</th>
+		</tr>
+		<tr ng-repeat="job in jobList"
+			ng-show="job.username==currentUser.username">
+			<td><a ng-click="showJob(job.jobId)" href="#/showJob">{{job.jobDesignation}}</a></td>
+			<td>{{job.jobProfile}}</td>
+			<td>{{job.qualificationRequired}}</td>
+			<td>{{job.jobDescription}}</td>
+			<td>
+				<p ng-show="job.jobStatus=='open'">Open</p>
+				<p ng-show="job.jobStatus=='closed'">Closed</p>
+			</td>
+			<td><a href="#/editJob?id={{job.jobId}}"><input
+					type="button" value="Edit" /></a><input type="button" value="Delete"
+				ng-click="deleteJob(job.jobId)" /></td>
+		</tr>
+	</table>
+</div>
+

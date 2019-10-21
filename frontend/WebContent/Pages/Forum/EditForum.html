@@ -1,0 +1,30 @@
+<div ng-controller="ForumController" ng-init="showEditForum()">
+	<h4>Edit Forum</h4>
+	<form>
+		<div class="form-group">
+			<input type="text" class="form-control"
+				ng-model="editForumInfo.forumTitle" placeholder="Title"> <span
+				id="forumTitleError" style="color: red;" class="error small"></span>
+		</div>
+		<div class="form-group">
+			<textarea ng-model="editForumInfo.forumContent" class="form-control"></textarea>
+			<span id="forumContentError" style="color: red;" class="error small"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" ng-click="updateForum()">Update</button>
+	</form>
+
+	<div class="modal fade" id="updateForumSuccessfulModal">
+		<div class="modal-dialog modal modal-dialog-centered"">
+			<div class="modal-content alert alert-success"
+				style="background-color: #d4edda;">
+
+				<!-- Add Forum Modal body -->
+				<div class="modal-body">
+					<span><i class="far fa-check-circle"></i> Your forum was
+						updated successfully. It will be made public once the changes are approved.</span>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,9 @@
+<div ng-controller="BlogController">
+	<p>Blog title</p>
+	<input type="text" name="blogTitle" ng-model="blog.blogTitle">
+
+	<p>Blog content</p>
+	<textarea name="blogContent" ng-model="blog.blogContent"></textarea>
+
+	<input type="button" value="Add Blog" ng-click="addBlog()" />
+</div>

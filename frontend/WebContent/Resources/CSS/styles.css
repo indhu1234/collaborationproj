@@ -1,0 +1,70 @@
+.fa, .fab, .fal, .far, .fas {
+	line-height: unset !important;
+}
+
+nav a {
+	color: #d2d2d2;
+}
+
+.left-nav-item a {
+	color: #343a40;
+}
+
+
+.sub-nav-item a {
+	
+}
+
+.sub-nav-item a.active {
+	background-color: unset !important;
+	color: unset !important;
+	border-bottom: 2px solid;
+	border-radius: unset;
+	font-weight: bold;
+}
+
+.bg-block {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	background-color: #e7f7ff;
+	padding: 5px;
+}
+
+a.card-link {
+	color: #000000 !important;
+	font-style: italic;
+	text-decoration: underline !important;
+	cursor: pointer;
+}
+
+.btn-like, .btn-dislike{
+	color: #8e8e8e;
+}
+
+.btn-like:hover, .btn-dislike:hover{
+	text-decoration: none;
+}
+
+.feed{
+	
+}
+
+.comment-striped{
+	background-color: #e2e9ec;
+}
+
+.comment-striped-alt{
+	background-color: #b7c8cc;
+}
+
+.user{
+	
+}
+
+.chat-message{
+	
+}
+
+.chat-text{
+	
+}

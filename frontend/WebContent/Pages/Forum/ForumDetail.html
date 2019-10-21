@@ -1,0 +1,103 @@
+<div ng-controller="ForumController" ng-init="showForum()">
+	<div class="card">
+		<div class="card-header" style="text-align: center;">
+			<strong>{{forumDetail.forumTitle}}</strong>
+		</div>
+		<div class="card-body">
+			{{forumDetail.forumContent}}
+			<div class="d-flex justify-content-between small mt-3"
+				style="font-style: italic;">
+				<span>Created by {{forumDetail.username}} on
+					{{forumDetail.createdDate}}</span>
+			</div>
+		</div>
+		<div class="card-footer" id="forumCommentsBox" style="color: #8e8e8e;"
+			ng-controller="ForumCommentController"
+			ng-init="getForumCommentList(forumId)">
+			<p style="font-style: italic;">Comments</p>
+			<div class="row mb-2" ng-repeat="forumComment in forumCommentList"
+				id="forumCommentRow{{forumComment.commentId}}">
+
+				<div class="col-sm-12">
+					<div class="d-flex">
+						<img
+							src="{{forumComment.profilePicUrl}}"
+							class="mr-2" style="width: 30px; height: 30px;" />
+						<div  style="width: 100%;">
+							<div class="row">
+								<div class="col-sm-12">
+									<span><b>{{forumComment.firstName+'
+											'+forumComment.lastName}}</b></span>
+								</div>
+
+							</div>
+							<div class="row">
+
+								<div class="col-sm-12">
+									<span id="commentCell{{forumComment.commentId}}"
+										class="input-group"> <span
+										id="forumComment{{forumComment.commentId}}">
+											{{forumComment.commentMessage}}</span>
+									</span>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 small">
+
+									<div class="d-flex justify-content-between">
+										<div id="commentOperationsBox{{forumComment.commentId}}"
+											ng-show="currentUser.username==forumComment.username">
+											<a href="" class=" mr-2"><i
+												id="editCommentBtn{{forumComment.commentId}}"
+												ng-click="editForumComment(forumComment.commentId)"
+												class="fas fa-edit" title="Edit" style="color: #343a40;"></i></a>
+											<a href="" class=" mr-2"><i class="fas fa-trash-alt"
+												title="Delete"
+												ng-click="deleteForumComment(forumComment.commentId)"
+												style="color: #343a40;"></i></a>
+										</div>
+										<span>{{forumComment.commentDate}}</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+			<div class="row mb-2">
+
+				<div class="col-sm-12">
+
+					<div class="d-flex">
+						<img
+							src="{{currentUser.profilePicUrl}}"
+							class="mr-2" style="width: 30px; height: 30px;" />
+						<div style="width: 100%;">
+							<form>
+								<span><b>{{currentUser.firstName+'
+										'+currentUser.lastName}}</b></span>
+
+								<div class="input-group">
+									<input type="text" name="commentMessage"
+										class="form-control form-control-sm"
+										ng-model="forumComment.commentMessage" />
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-sm btn-primary"
+											ng-click="addForumComment()">Add</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>

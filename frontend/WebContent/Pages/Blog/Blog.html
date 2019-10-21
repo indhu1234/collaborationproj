@@ -1,0 +1,143 @@
+<div ng-controller="BlogController" ng-init="getBlogs()">
+	<div id="blog-menu" class="d-flex justify-content-between">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="nav-item sub-nav-item"><a class="nav-link small"
+				data-toggle="pill" onclick="blogMenuSwitch(this.id)"
+				id="tab-AllBlogs" href="">All Blogs</a></li>
+			<li class="nav-item sub-nav-item"><a
+				class="nav-link small active" data-toggle="pill"
+				onclick="blogMenuSwitch(this.id)" id="tab-YourBlogs" href="">Your
+					Blogs</a></li>
+		</ul>
+
+		<div>
+			<button class="btn btn-sm btn-success" data-toggle="modal"
+				data-target="#addBlogModal"
+				onclick="document.getElementById('addBlogForm').reset()">
+				<i class="fas fa-plus mr-1"></i>Add
+			</button>
+			<!-- Add Blog Modal -->
+			<div class="modal fade" id="addBlogModal">
+				<div class="modal-dialog modal-lg modal-dialog-centered"">
+					<div class="modal-content">
+
+						<!-- Add Blog Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Create A New Blog</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<!-- Add Blog Modal body -->
+						<div class="modal-body">
+							<form id="addBlogForm">
+								<div class="form-group">
+									<label>Title:</label> <input type="text" 
+										ng-model="blog.blogTitle" class="form-control">
+										<span id="blogTitleError" style="color:red;" class="error small"></span>
+								</div>
+								<div class="form-group">
+									<label>Content:</label>
+									<textarea ng-model="blog.blogContent"
+										class="form-control"></textarea>
+										<span id="blogContentError" style="color:red;" class="error small"></span>
+								</div>
+								<button ng-click="addBlog()" type="submit"
+									class="btn btn-primary">Create</button>
+							</form>
+						</div>
+
+						<!-- Add Blog Modal footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addBlogSuccessfulModal">
+				<div class="modal-dialog modal modal-dialog-centered"">
+					<div class="modal-content alert alert-success"
+						style="background-color: #d4edda;">
+
+						<!-- Add Blog Modal body -->
+						<div class="modal-body">
+							<span><i class="far fa-check-circle"></i> Your blog was
+								created successfully. It will be made public once it is approved.</span>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a ng-show="currentUser.role=='admin'"
+				href="#/manageBlog"><button class="btn btn-sm btn-warning">
+					<i class="fas fa-wrench mr-1"></i>Manage
+				</button></a>
+		</div>
+	</div>
+
+	<div id="tabPane-AllBlogs" style="display: none;">
+		<div ng-hide="blogList.length > 0" class="bg-block rounded">There are no blogs.</div>
+		<div id="accordion" ng-show="blogList.length > 0">
+			<div class="bg-block rounded" ng-repeat="blog in blogList" ng-show="blog.status=='A'">
+				<div class="card">
+					<div class="card-header">
+						<a class="card-link" data-toggle="collapse"
+							data-target="#collapse{{$index+1}}">{{blog.blogTitle}}</a><br>
+						<span class="small"> Created by {{blog.username}} on
+							{{blog.createdDate}}</span>
+					</div>
+					<div id="collapse{{$index+1}}" class="collapse"
+						data-parent="#accordion">
+						<div class="card-body">
+							{{blog.blogContent.substring(0,200)+'...'}}</div>
+						<div class="card-footer small" style="color: #8e8e8e;">
+							<div class="d-flex justify-content-between">
+								<a ng-click="showBlog(blog.blogId)" href="">Open Blog</a> <span
+									ng-controller="BlogCommentController"
+									ng-init="getBlogCommentList(blog.blogId)">{{blog.likes}}
+									Likes | {{blog.dislikes}} Dislikes | {{blogCommentList.length}} Comments</span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="tabPane-YourBlogs">
+		<div ng-hide="userBlogList.length>0" class="bg-block rounded">There are no blogs.</div>
+		<div class="table-responsive" ng-show="userBlogList.length>0">
+			<table class="table table-striped table-hover table-bordered"
+				style="margin-bottom: unset;">
+				<thead class="thead-light">
+					<tr>
+						<th>Title</th>
+						<th>Date / Time</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="blog in userBlogList" id="blogRow{{blog.blogId}}"
+						ng-show="blog.username==currentUser.username">
+						<td><a ng-click="showBlog(blog.blogId)" href="">{{blog.blogTitle}}</a></td>
+						<td>{{blog.createdDate}}</td>
+						<td><span ng-show="blog.status=='A'">Approved</span> <span
+							ng-show="blog.status=='R'">Rejected</span> <span
+							ng-show="blog.status=='P'">Pending</span></td>
+						<td><div class="d-flex">
+								<a href="#/editBlog?id={{blog.blogId}}" class=" mr-2"><i
+									class="fas fa-edit" title="Edit" style="color: #343a40;"></i></a><a
+									href="" ng-click="deleteBlog(blog.blogId)" class=" mr-2"><i
+									class="fas fa-trash-alt" title="Delete" style="color: #343a40;"></i></a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

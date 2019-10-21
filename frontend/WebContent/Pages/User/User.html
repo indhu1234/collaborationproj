@@ -1,0 +1,207 @@
+<div ng-controller="UserController">
+
+	<h3>Your Profile</h3>
+	<div class="row">
+		<div class="col-sm" style="text-align: center;">
+			<img src="{{currentUser.profilePicUrl}}"
+				style="width: 100px; height: 100px;" />
+		</div>
+
+	</div>
+	<div ng-controller="ProfilePicController">
+		<div class="row">
+			<div class="col-sm" style="text-align: center;">
+				<button class="btn btn-sm btn-primary mt-2"
+					ng-show="currentUser.profilePicUrl=='http://localhost:'+portNo+'/frontend/Resources/Images/empty-profile-pic.png'"
+					data-toggle="modal" data-target="#addProfilePicModal">Add</button>
+				<button class="btn btn-sm btn-primary mt-2"
+					ng-hide="currentUser.profilePicUrl=='http://localhost:'+portNo+'/frontend/Resources/Images/empty-profile-pic.png'"
+					data-toggle="modal" data-target="#updateProfilePicModal">Change</button>
+				<button class="btn btn-sm btn-danger mt-2"
+					ng-hide="currentUser.profilePicUrl=='http://localhost:'+portNo+'/frontend/Resources/Images/empty-profile-pic.png'"
+					data-toggle="modal" data-target="#deleteProfilePicModal">Remove</button>
+			</div>
+		</div>
+
+		<!-- Add Profile Pic Modal -->
+		<div class="modal" id="addProfilePicModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Add a Profile Picture</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form method="post" enctype="multipart/form-data"
+							action="/middleware/addProfilePic">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input" name="profilePic"
+									id="addProfilePicFile"> <label
+									class="custom-file-label" for="addProfilePicFile">Choose
+									file</label>
+							</div>
+							<button class="btn btn-success" type="submit"
+								ng-click="addProfilePic()">Upload</button>
+						</form>
+					</div>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Update Profile Pic Modal -->
+		<div class="modal" id="updateProfilePicModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Update Profile Picture</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						<form method="post" enctype="multipart/form-data"
+							action="/middleware/updateProfilePic">
+							<div class="custom-file">
+								<input type="file" class="custom-file-input"
+									name="updateProfilePic" id="updateProfilePicFile"> <label
+									class="custom-file-label" for="updateProfilePicFile">Choose
+									file</label>
+							</div>
+							<button class="btn btn-success" type="submit"
+								ng-click="updateProfilePic()">Update</button>
+					</div>
+						</form>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Delete Profile Pic Modal -->
+		<div class="modal" id="deleteProfilePicModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<!-- Modal Header -->
+					<div class="modal-header">
+						<h4 class="modal-title">Remove Profile Picture?</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- Modal body -->
+					<div class="modal-body">
+						<span>Are you sure you want to remove your profile picture?</span>
+					</div>
+
+					<!-- Modal footer -->
+					<div class="modal-footer">
+						<form>
+							<button type="submit" class="btn btn-danger"
+								ng-click="deleteProfilePic()" data-dismiss="modal">Yes</button>
+							<button class="btn btn-success" data-dismiss="modal">No</button>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="addProfilePicSuccessfulModal">
+			<div class="modal-dialog modal modal-dialog-centered"">
+				<div class="modal-content alert alert-success"
+					style="background-color: #d4edda;">
+
+					<!-- Add Profile Pic Successful Modal body -->
+					<div class="modal-body">
+						<span><i class="far fa-check-circle"></i> Your profile
+							picture was uploaded successfully.</span>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="updateProfilePicSuccessfulModal">
+			<div class="modal-dialog modal modal-dialog-centered"">
+				<div class="modal-content alert alert-success"
+					style="background-color: #d4edda;">
+
+					<!-- Add Profile Pic Successful Modal body -->
+					<div class="modal-body">
+						<span><i class="far fa-check-circle"></i> Your profile
+							picture was changed successfully.</span>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="deleteProfilePicSuccessfulModal">
+			<div class="modal-dialog modal modal-dialog-centered"">
+				<div class="modal-content alert alert-success"
+					style="background-color: #d4edda;">
+
+					<!-- Add Profile Pic Successful Modal body -->
+					<div class="modal-body">
+						<span><i class="far fa-check-circle"></i> Your profile
+							picture was removed successfully.</span>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div class="d-flex justify-content-end">
+		<button class="btn btn-sm m-1" ng-click="showEditUser()"
+			ng-show="editingUserDetails==false">Edit</button>
+		<button class="btn btn-sm btn-success m-1" ng-click="updateUser()"
+			ng-hide="editingUserDetails==false">Save</button>
+		<button class="btn btn-sm btn-secondary m-1"
+			ng-click="closeEditUser()" ng-hide="editingUserDetails==false">Undo</button>
+	</div>
+	<div class="row">
+		<div class="col-sm">
+			<div class="row">
+				<div class="col-sm">First Name</div>
+				<div class="col-sm">
+					<input type="text" id="firstName" ng-model="user.firstName"
+						class="form-control form-control-sm" readonly /> <span
+						id="firstNameError" class="error small" style="color: red;"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">Last Name</div>
+				<div class="col-sm">
+					<input type="text" id="lastName" ng-model="user.lastName"
+						class="form-control form-control-sm" readonly /> <span
+						id="lastNameError" class="error small" style="color: red;"></span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm">Email</div>
+				<div class="col-sm">
+					<input type="text" id="email" ng-model="user.email"
+						class="form-control form-control-sm" readonly /> <span
+						id="emailError" class="error small" style="color: red;"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

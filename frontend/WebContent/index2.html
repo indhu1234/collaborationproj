@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="Resources/CSS/styles.css">
+<link rel="stylesheet" href="Resources/CSS/bootstrap.min.css">
+<link rel="stylesheet"
+	href="Resources/fontawesome-free-5.8.1-web/css/all.min.css">
+</head>
+<body ng-app="myApp" style="background-color: #F2F3F5;">
+	<nav ng-controller="UserController" id="navbar"
+		class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
+		<div class="container">
+			
+			<div class="row" style="width: 100%;">
+				<div class="col-sm-7" style="margin: auto 0;">
+					<form style="margin-bottom: unset;"
+						ng-controller="SearchController">
+						<div class="input-group">
+							<input type="text" class="form-control form-control-sm"
+								id="searchBar" placeholder="Search" ng-model="searchText" />
+							<div class="input-group-append">
+								<a href="#/search" ng-click="search()"><button
+										id="searchBtn" class="btn btn-sm btn-primary" type="submit">
+										<i class="fas fa-search"></i>
+									</button></a>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				
+	
+				<div class="col-sm-5">
+					<ul class="nav justify-content-end">
+						<li class="nav-item"><a class="nav-link mr-1"
+							href="#/showUser"><img src="{{currentUser.profilePicUrl}}"
+								style="max-height: 30px; max-width: 30px;" class="mx-2" />{{currentUser.firstName}}</a></li>
+						<li class="nav-item"><a class="nav-link ml-1" href="#/blog">Home</a></li>
+						<li class="nav-item" ng-controller="FriendController"><a
+							class="nav-link" href="#/friends" title="Friends"> <i
+								class="fas fa-user-friends"></i><span
+								class="badge badge-danger ml-1"
+								ng-show="friendRequests.length>0">{{friendRequests.length}}</span>
+						</a></li>
+						<li class="nav-item"><a class="nav-link" href=""
+							title="Logout" ng-click="logout()"><i
+								class="fas fa-sign-out-alt"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="container mt-2">
+		<div class="row" style="min-height: 90%;">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-3">
+						<!-- Left Navigation Bar -->
+						<ul class="nav nav-pills flex-column" role="tablist">
+							<li class="nav-item left-nav-item"><a id="tab-blogs"
+								style="background-color: unset; color: #000;"
+								class="nav-link py-1" href="#/blog" data-toggle="pill"> <img
+									src="Resources/Images/blog-icon.png" width="25px" class="mr-1" />Blogs
+							</a></li>
+							<li class="nav-item left-nav-item"><a id="tab-forums"
+								style="background-color: unset; color: #000;"
+								class="nav-link py-1" href="#/forum" data-toggle="pill"> <img
+									src="Resources/Images/forum-icon.ico" width="25px" class="mr-1" />Forums
+							</a></li>
+							<li class="nav-item left-nav-item"><a id="tab-jobs"
+								style="background-color: unset; color: #000;"
+								class="nav-link py-1" href="#/job" data-toggle="pill"> <img
+									src="Resources/Images/job-icon.png" width="25px" class="mr-1" />Jobs
+							</a></li>
+						</ul>
+					</div>
+					<div class="col-md-9">
+						<div ng-view></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3" ng-controller="ChatController"
+				style="background-color: #d8e2e4;">
+				<div>
+					<form ng-submit="addMessage()" name="chatMsg">
+						<div class="d-flex">
+							<div class="input-group mb-3">
+								<input type="text" class="form-control form-control-sm"
+									ng-model="message">
+								<div class="input-group-append">
+									<button class="btn btn-sm btn-primary"
+										ng-disabled="message.length>140 || message.length==0">
+										<i class="fas fa-arrow-circle-right"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="d-flex small chat-message"
+						ng-repeat="message in messages|orderBy:'time':true"
+						style="margin: 5px auto;">
+						<div class="d-flex flex-column bg-primary chat-text"
+							style="width: 100%; padding: 5px; color: #fff; border-radius: 5px;">
+							<div class="d-flex justify-content-between">
+								<strong>{{message.message.substring(0,message.message.indexOf(":"))}}</strong>
+								<span>{{message.time|date:'HH:mm'}}</span>
+							</div>
+							<span>{{message.message.substring(message.message.indexOf(":")+1)}}</span>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="Resources/JS/jquery.min.js"></script>
+	<script type="text/javascript" src="Resources/JS/angular1.3.1.min.js"></script>
+	<script type="text/javascript" src="Resources/JS/angular-route1.3.1.js"></script>
+	<script type="text/javascript"
+		src="Resources/JS/angular-cookies1.3.1.js"></script>
+
+	<script type="text/javascript" src="RouteConfig.js"></script>
+	<script type="text/javascript" src="Controllers/UserController.js"></script>
+	<script type="text/javascript" src="Controllers/BlogController.js"></script>
+	<script type="text/javascript"
+		src="Controllers/BlogCommentController.js"></script>
+	<script type="text/javascript" src="Controllers/ForumController.js"></script>
+	<script type="text/javascript"
+		src="Controllers/ForumCommentController.js"></script>
+	<script type="text/javascript" src="Controllers/FriendController.js"></script>
+	<script type="text/javascript" src="Controllers/ChatController.js"></script>
+	<script type="text/javascript" src="Controllers/JobController.js"></script>
+	<script type="text/javascript" src="Controllers/SearchController.js"></script>
+	<script type="text/javascript" src="Controllers/ProfilePicController.js"></script>
+	<script type="text/javascript" src="Resources/JS/scripts.js"></script>
+
+	<script type="text/javascript" src="Pages/Chat/ChatService.js"></script>
+	<script src="Resources/JS/sockjs1.1.1.js"></script>
+	<script src="Resources/JS/lodash4.16.3.js"></script>
+	<script src="Resources/JS/stomp2.3.3.js"></script>
+
+	<script src="Resources/JS/popper.min.js"></script>
+	<script src="Resources/JS/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<div ng-controller="UserController">
+	<h2>Login</h2>
+	<form>
+		<table>
+			<tr>
+				<td>Username</td>
+				<td><input type="text" ng-model="user.username" /></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td><input type="password" ng-model="user.password" /></td>
+			</tr>
+			<tr>
+				<td><input type="submit" ng-click="loginCheck()" /></td>
+			</tr>
+		</table>
+	</form>
+</div>

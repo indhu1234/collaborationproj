@@ -1,0 +1,32 @@
+<div ng-controller="ForumController" ng-init="getForumList()">
+
+	<ol>
+		<li ng-repeat="forum in forumList" ng-show="forum.status=='A'"><a
+			ng-click="showForum(forum.forumId)" href="#/showForum">{{forum.forumTitle}}</a></li>
+	</ol>
+	<h4></h4>
+	<table>
+		<tr>
+			<th>My Forums</th>
+		</tr>
+		<tr>
+			<th>Forum Title</th>
+			<th>Created on</th>
+			<th>Status</th>
+			<th>Operations</th>
+		</tr>
+		<tr ng-repeat="forum in forumList"
+			ng-show="forum.username==currentUser.username">
+			<td><a ng-click="showForum(forum.forumId)" href="#/showForum">{{forum.forumTitle}}</a></td>
+			<td>{{forum.createdDate}}</td>
+			<td>
+				<p ng-show="forum.status=='A'">Approved</p>
+				<p ng-show="forum.status=='R'">Rejected</p>
+			</td>
+			<td><a href="#/editForum?id={{forum.forumId}}"><input
+					type="button" value="Edit" /></a><input type="button" value="Delete"
+				ng-click="deleteForum(forum.forumId)" /></td>
+		</tr>
+	</table>
+</div>
+

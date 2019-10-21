@@ -1,0 +1,19 @@
+<div ng-controller="ChatController">
+
+	<form ng-submit="addMessage()" name="chatMsg">
+		<div class="d-flex justify-content-between">
+			<input type="text" ng-model="message" class="form-control" />
+			<!-- <span ng-bind="max - message.length">140</span> -->
+			<button class="btn btn-primary"
+				ng-disabled="message.length>140 || message.length==0">Send</button>
+		</div>
+	</form>
+	<div class="row" ng-repeat="message in messages|orderBy:'time':true">
+		<div class="col">
+			<time>{{message.time|date:'HH:MM'}}</time>
+		</div>
+		<div class="col">
+			<span>{{message.message}}</span>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,34 @@
+<div ng-controller="ForumController" ng-init="getForums()">
+	<h1>Manage Forums</h1>
+	<div ng-hide="forumList.length>0" class="bg-block rounded">There
+		are no existing forums.</div>
+	<div class="table-responsive" ng-show="forumList.length>0">
+		<table class="table table-striped table-hover table-bordered"
+			style="margin-bottom: unset;">
+			<thead class="thead-light">
+				<tr>
+					<th>Forum Title</th>
+					<th>Created by</th>
+					<th>Created on</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tr ng-repeat="forum in forumList" id="forumRow{{forum.forumId}}">
+				<td><a ng-click="showForum(forum.forumId)" href="#/showForum">{{forum.forumTitle}}</a></td>
+				<td>{{forum.username}}</td>
+				<td>{{forum.createdDate}}</td>
+				<td>
+					<div class="d-flex">
+						<a href="" title="Approve" ng-hide="forum.status=='A'" class="mr-2"
+							ng-click="approveForum(forum.forumId)"><i
+							class="fas fa-check-circle" style="color: mediumseagreen;"></i></a> <a
+							href="" title="Reject" class="mr-2" ng-hide="forum.status=='R'"
+							ng-click="rejectForum(forum.forumId)"><i
+							class="fas fa-times-circle" style="color: red;"></i></a>
+					</div>
+
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

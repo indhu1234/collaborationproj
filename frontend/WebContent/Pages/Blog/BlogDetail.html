@@ -1,0 +1,115 @@
+<div ng-controller="BlogController" ng-init="showBlog()">
+	<div class="card">
+		<div class="card-header" style="text-align: center;">
+			<strong>{{blogDetail.blogTitle}}</strong>
+		</div>
+		<div class="card-body">
+			{{blogDetail.blogContent}}
+			<div class="d-flex justify-content-between small mt-3"
+				style="font-style: italic;">
+				<span>Created by {{blogDetail.username}} on
+					{{blogDetail.createdDate}}</span><span> <a
+					id="btn-like-{{blogDetail.blogId}}" class="btn-like" title="Like"
+					ng-click="likeClick()" href=""> <i
+						ng-show="existingBlogLike==undefined"
+						class="far fa-thumbs-up mx-1"></i> <i
+						ng-hide="existingBlogLike==undefined"
+						class="far fa-thumbs-up mx-1"></i> <span id="blog-like-count">{{blogDetail.likes}}</span>
+				</a><a title="Dislike" class="btn-dislike" ng-click="dislikeClick()"
+					href=""> <i ng-show="existingBlogDislike==undefined"
+						class="far fa-thumbs-down mx-1"></i> <i
+						ng-hide="existingBlogDislike==undefined"
+						class="far fa-thumbs-down mx-1"></i> <span id="blog-dislike-count">{{blogDetail.dislikes}}</span>
+				</a></span>
+			</div>
+		</div>
+		<div class="card-footer" id="blogCommentsBox" style="color: #8e8e8e;"
+			ng-controller="BlogCommentController"
+			ng-init="getBlogCommentList(blogId)">
+			<p style="font-style: italic;">Comments</p>
+			<div class="row mb-2" ng-repeat="blogComment in blogCommentList"
+				id="blogCommentRow{{blogComment.commentId}}">
+
+				<div class="col-sm-12">
+					<div class="d-flex">
+						<img src="{{blogComment.profilePicUrl}}" class="mr-2"
+							style="width: 30px; height: 30px;" />
+						<div style="width: 100%;">
+							<div class="row">
+								<div class="col-sm-12">
+									<span><b>{{blogComment.firstName+'
+											'+blogComment.lastName}}</b></span>
+								</div>
+
+							</div>
+							<div class="row">
+
+								<div class="col-sm-12">
+									<span id="commentCell{{blogComment.commentId}}"
+										class="input-group"> <span
+										id="blogComment{{blogComment.commentId}}">
+											{{blogComment.commentMessage}}</span>
+									</span>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-12 small">
+
+									<div class="d-flex justify-content-between">
+										<div id="commentOperationsBox{{blogComment.commentId}}"
+											ng-show="currentUser.username==blogComment.username">
+											<a href="" class=" mr-2"><i
+												id="editCommentBtn{{blogComment.commentId}}"
+												ng-click="editBlogComment(blogComment.commentId)"
+												class="fas fa-edit" title="Edit" style="color: #343a40;"></i></a>
+											<a href="" class=" mr-2"><i class="fas fa-trash-alt"
+												title="Delete"
+												ng-click="deleteBlogComment(blogComment.commentId)"
+												style="color: #343a40;"></i></a>
+										</div>
+										<span>{{blogComment.commentDate}}</span>
+									</div>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+
+			<div class="row mb-2">
+
+				<div class="col-sm-12">
+
+					<div class="d-flex">
+						<img src="{{currentUser.profilePicUrl}}" class="mr-2"
+							style="width: 30px; height: 30px;" />
+						<div style="width: 100%;">
+							<form>
+								<span><b>{{currentUser.firstName+'
+										'+currentUser.lastName}}</b></span>
+
+								<div class="input-group">
+									<input type="text" name="commentMessage"
+										class="form-control form-control-sm"
+										ng-model="blogComment.commentMessage" />
+									<div class="input-group-append">
+										<button type="submit" class="btn btn-sm btn-primary"
+											ng-click="addBlogComment()">Add</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

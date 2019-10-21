@@ -1,0 +1,95 @@
+<div ng-controller="UserHomeController" ng-init="generateNewsFeed(1,4)">
+	<div class="card feed mb-2" ng-repeat="item in newsFeedItems">
+		<div class="card-header">
+			<div class="d-flex">
+				<img
+					src="http://localhost:{{portNo}}/middleware/showProfilePic/{{item.username}}"
+					title="{{item.firstName+' '+item.lastName}}"
+					style="width: 60px; height: 60px;" class="mr-2" />
+				<div class="d-flex justify-content-between">
+					<div>
+						<div class="row">
+							<div class="col">
+								<strong>{{item.firstName}} {{item.lastName}}</strong>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col small">{{item.elapsedTime}}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card-body">
+			<div ng-show="item.type=='blog'" class="">
+				<h6 style="text-decoration: underline;">
+					<img src="Resources/Images/blog-icon.png" class="mr-1"
+						style="width: 20px; height: 20px;" title="Blog" />{{item.blogTitle}}
+				</h6>
+				{{item.blogContent.substring(0,200)+'...'}}
+			</div>
+			<div ng-show="item.type=='forum'" class="">
+				<h6 style="text-decoration: underline;">
+					<img src="Resources/Images/forum-icon.ico" class="mr-1"
+						style="width: 20px; height: 20px;" title="Forum" />{{item.forumTitle}}
+				</h6>
+				{{item.forumContent.substring(0,200)+'...'}}
+			</div>
+			<div ng-show="item.type=='job'" class="">
+				<h6 style="text-decoration: underline;">
+					<img src="Resources/Images/job-icon.png" class="mr-1"
+						style="width: 20px; height: 20px;" title="Job" />{{item.jobDesignation}}
+				</h6>
+				{{item.jobDescription.substring(0,200)+'...'}}
+			</div>
+		</div>
+		<div class="card-footer small">
+			<div ng-show="item.type=='blog'">
+				<a data-toggle="collapse" href=""
+					ng-show="(blogComments | filter:{blogId:item.blogId}).length>0"
+					onclick="if(this.innerHTML=='Show Comments')this.innerHTML='Hide Comments';else this.innerHTML='Show Comments'"
+					data-target="#blog{{item.blogId}}Comments">Show Comments</a> <span
+					ng-hide="(blogComments | filter:{blogId:item.blogId}).length>0">No
+					Comments</span>
+				<div id="blog{{item.blogId}}Comments" class="collapse">
+					<div
+						ng-repeat="blogComment in blogComments | filter:{blogId:item.blogId}"
+						class="py-2"
+						ng-class="{ 'comment-striped-alt' : (($index + 1) % 2 == 0),'comment-striped' : (($index + 1) % 2 != 0)}">
+						<div class="d-flex">
+							<img
+								src="http://localhost:{{portNo}}/middleware/showProfilePic/{{blogComment.username}}"
+								class="mr-2" style="width: 30px; height: 30px;" /><span><strong>{{blogComment.firstName}}
+									{{blogComment.lastName}}</strong> {{blogComment.commentMessage}}</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div ng-show="item.type=='forum'">
+				<a data-toggle="collapse" href=""
+					ng-show="(forumComments | filter:{forumId:item.forumId}).length>0"
+					onclick="if(this.innerHTML=='Show Comments')this.innerHTML='Hide Comments';else this.innerHTML='Show Comments'"
+					data-target="#forum{{item.forumId}}Comments">Show Comments</a> <span
+					ng-hide="(forumComments | filter:{forumId:item.forumId}).length>0">No
+					Comments</span>
+				<div id="forum{{item.forumId}}Comments" class="collapse">
+					<div
+						ng-repeat="forumComment in forumComments | filter:{forumId:item.forumId}"
+						class="py-2"
+						ng-class="{ 'comment-striped-alt' : (($index + 1) % 2 == 0),'comment-striped' : (($index + 1) % 2 != 0)}">
+						<div class="d-flex">
+							<img
+								src="http://localhost:{{portNo}}/middleware/showProfilePic/{{forumComment.username}}"
+								class="mr-2" style="width: 30px; height: 30px;" /><span><strong>{{forumComment.firstName}}
+									{{forumComment.lastName}}</strong> {{forumComment.commentMessage}}</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div ng-show="item.type=='job'"></div>
+		</div>
+		<button class="btn btn-primary">Load More Posts</button>
+	</div>
+</div>

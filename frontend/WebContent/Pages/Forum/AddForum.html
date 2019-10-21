@@ -1,0 +1,9 @@
+<div ng-controller="ForumController">
+	<p>Forum title</p>
+	<input type="text" name="forumTitle" ng-model="forum.forumTitle">
+
+	<p>Forum content</p>
+	<textarea name="forumContent" ng-model="forum.forumContent"></textarea>
+
+	<input type="button" value="Add Forum" ng-click="addForum()" />
+</div>

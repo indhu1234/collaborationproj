@@ -1,0 +1,23 @@
+<div ng-controller="JobController" ng-init="showJob()">
+	<div class="card">
+		<div class="card-header" style="text-align: center;">
+			<strong>{{jobDetail.jobDesignation}}</strong>
+		</div>
+		<div class="card-body">
+			<h6>Job Profile</h6>
+			{{jobDetail.jobProfile}}<br><br>
+			<h6>Qualification Required</h6>
+			{{jobDetail.qualificationRequired}}<br><br>
+			<h6>Description</h6>
+			{{jobDetail.jobDescription}}
+
+		</div>
+		<div class="card-footer" style="color: #8e8e8e;">
+			<div class="d-flex justify-content-between small"
+				style="font-style: italic;">
+				<span>Created by {{jobDetail.username}} on
+					{{jobDetail.postedDate}}</span>
+			</div>
+		</div>
+	</div>
+</div>

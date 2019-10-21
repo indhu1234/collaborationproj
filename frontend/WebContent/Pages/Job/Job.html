@@ -1,0 +1,162 @@
+<div ng-controller="JobController" ng-init="getJobs()">
+	<div id="job-menu" class="d-flex justify-content-between">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="nav-item sub-nav-item"><a class="nav-link small"
+				data-toggle="pill" onclick="jobMenuSwitch(this.id)" id="tab-AllJobs"
+				href="">All Jobs</a></li>
+			<li class="nav-item sub-nav-item"><a
+				class="nav-link small active" data-toggle="pill"
+				onclick="jobMenuSwitch(this.id)" id="tab-YourJobs" href="">Your
+					Jobs</a></li>
+		</ul>
+
+		<div>
+			<button class="btn btn-sm btn-success" data-toggle="modal"
+				data-target="#addJobModal"
+				onclick="document.getElementById('addJobForm').reset()">
+				<i class="fas fa-plus mr-1"></i>Add
+			</button>
+			<!-- Add Job Modal -->
+			<div class="modal fade" id="addJobModal">
+				<div class="modal-dialog modal-lg modal-dialog-centered"">
+					<div class="modal-content">
+
+						<!-- Add Job Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Add A New Job</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+						<!-- Add Job Modal body -->
+						<div class="modal-body">
+							<form id="addJobForm">
+								<div class="form-group">
+									<label>Designation:</label> <input type="text"
+										class="form-control" ng-model="job.jobDesignation"
+										placeholder="Designation"> <span
+										id="jobDesignationError" style="color: red;"
+										class="error small"></span>
+								</div>
+								<div class="form-group">
+									<label>Job Profile:</label> <input type="text"
+										ng-model="job.jobProfile" placeholder="Job Profile"
+										class="form-control" /> <span id="jobProfileError"
+										style="color: red;" class="error small"></span>
+								</div>
+
+								<div class="form-group">
+									<label>Qualification Required:</label> <input type="text"
+										ng-model="job.qualificationRequired"
+										placeholder="Qualification Required" class="form-control" />
+									<span id="qualificationRequiredError" style="color: red;"
+										class="error small"></span>
+								</div>
+								<div class="form-group">
+									<label>Description:</label>
+									<textarea type="text" ng-model="job.jobDescription"
+										class="form-control"></textarea>
+									<span id="jobDescriptionError" style="color: red;"
+										class="error small"></span>
+								</div>
+								<button ng-click="addJob()" type="submit"
+									class="btn btn-primary">Add</button>
+							</form>
+						</div>
+
+						<!-- Add Job Modal footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addJobSuccessfulModal">
+				<div class="modal-dialog modal modal-dialog-centered"">
+					<div class="modal-content alert alert-success"
+						style="background-color: #d4edda;">
+
+						<!-- Add Job Modal body -->
+						<div class="modal-body">
+							<span><i class="far fa-check-circle"></i> Your job was
+								posted successfully.</span>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a ng-controller="JobController" ng-show="currentUser.role=='admin'"
+				href="#/manageJob"><button class="btn btn-sm btn-warning">
+					<i class="fas fa-wrench mr-1"></i>Manage
+				</button></a>
+		</div>
+	</div>
+
+	<div id="tabPane-AllJobs" style="display: none;">
+		<div ng-hide="jobList.length > 0" class="bg-block rounded">There
+			are no jobs.</div>
+		<div id="accordion" ng-show="jobList.length > 0">
+			<div class="bg-block rounded" ng-repeat="job in jobList"
+				ng-show="job.jobStatus=='open'">
+				<div class="card">
+					<div class="card-header">
+						<a class="card-link" data-toggle="collapse"
+							data-target="#collapse{{$index+1}}">{{job.jobDesignation}}</a><br>
+						<span class="small"> Created by {{job.username}} on
+							{{job.postedDate}}</span>
+					</div>
+					<div id="collapse{{$index+1}}" class="collapse"
+						data-parent="#accordion">
+						<div class="card-body">
+							<h6>Job Profile</h6>
+							{{job.jobProfile}}<br> <br>
+							<h6>Qualification Required</h6>
+							{{job.qualificationRequired}}<br> <br>
+							<h6>Description</h6>
+							{{job.jobDescription.substring(0,200)+'...'}}
+						</div>
+						<div class="card-footer small" style="color: #8e8e8e;">
+							<div class="d-flex justify-content-between">
+								<a ng-click="showJob(job.jobId)" href="">Open Job</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="tabPane-YourJobs">
+		<div ng-hide="userJobList.length>0" class="bg-block rounded">There
+			are no jobs.</div>
+		<div class="table-responsive" ng-show="userJobList.length>0">
+			<table class="table table-striped table-hover table-bordered"
+				style="margin-bottom: unset;">
+				<thead class="thead-light">
+					<tr>
+						<th>Designation</th>
+						<th>Date / Time</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="job in userJobList" id="jobRow{{job.jobId}}"
+						ng-show="job.username==currentUser.username">
+						<td><a ng-click="showJob(job.jobId)" href="">{{job.jobDesignation}}</a></td>
+						<td>{{job.postedDate}}</td>
+						<td><span ng-show="job.status=='open'">Open</span> <span
+							ng-show="job.status=='closed'">Closed</span>
+						<td><div class="d-flex">
+								<a href="#/editJob?id={{job.jobId}}" class=" mr-2"><i
+									class="fas fa-edit" title="Edit" style="color: #343a40;"></i></a><a
+									href="" ng-click="deleteJob(job.jobId)" class=" mr-2"><i
+									class="fas fa-trash-alt" title="Delete" style="color: #343a40;"></i></a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

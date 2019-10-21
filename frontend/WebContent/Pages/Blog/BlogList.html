@@ -1,0 +1,30 @@
+<div ng-controller="BlogController" ng-init="getBlogList()">
+	<ol>
+		<li ng-repeat="blog in blogList" ng-show="blog.status=='A'"><a
+			ng-click="showBlog(blog.blogId)" href="#/showBlog">{{blog.blogTitle}}</a></li>
+	</ol>
+	<table>
+		<tr>
+			<th>My Blogs</th>
+		</tr>
+		<tr>
+			<th>Blog Title</th>
+			<th>Created on</th>
+			<th>Status</th>
+			<th>Operations</th>
+		</tr>
+		<tr ng-repeat="blog in blogList"
+			ng-show="blog.username==currentUser.username">
+			<td><a ng-click="showBlog(blog.blogId)" href="#/showBlog">{{blog.blogTitle}}</a></td>
+			<td>{{blog.createdDate}}</td>
+			<td>
+				<p ng-show="blog.status=='A'">Approved</p>
+				<p ng-show="blog.status=='R'">Rejected</p>
+			</td>
+			<td><a href="#/editBlog?id={{blog.blogId}}"><input
+					type="button" value="Edit" /></a><input type="button" value="Delete"
+				ng-click="deleteBlog(blog.blogId)" /></td>
+		</tr>
+	</table>
+</div>
+

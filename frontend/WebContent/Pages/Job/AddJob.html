@@ -1,0 +1,12 @@
+<div ng-controller="JobController">
+	<p>Job Designation</p>
+	<input type="text" name="jobDesignation" ng-model="job.jobDesignation">
+	<p>Job Profile</p>
+	<input type="text" name="jobProfile" ng-model="job.jobProfile">
+	<p>Job Requirements</p>
+	<input type="text" name="qualificationRequired"
+		ng-model="job.qualificationRequired">
+	<p>Job Description</p>
+	<textarea name="jobDescription" ng-model="job.jobDescription"></textarea>
+	<input type="button" value="Add Job" ng-click="addJob()" />
+</div>

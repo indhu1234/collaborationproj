@@ -1,0 +1,42 @@
+<div ng-controller="JobController" ng-init="showEditJob()">
+	<h4>Edit Job</h4>
+	<form>
+		<div class="form-group">
+			<input type="text" class="form-control"
+				ng-model="editJobInfo.jobDesignation" placeholder="Designation">
+			<span id="jobDesignationError" style="color: red;"
+				class="error small"></span>
+		</div>
+		<div class="form-group">
+			<input type="text" ng-model="editJobInfo.jobProfile" placeholder="Job Profile"
+				class="form-control" /> <span id="jobProfileError"
+				style="color: red;" class="error small"></span>
+		</div>
+		<div class="form-group">
+			<input type="text" ng-model="editJobInfo.qualificationRequired" placeholder="Qualification Required"
+				class="form-control" /> <span id="qualificationRequiredError"
+				style="color: red;" class="error small"></span>
+		</div>
+		<div class="form-group">
+			<textarea type="text" ng-model="editJobInfo.jobDescription"
+				class="form-control" ></textarea> <span id="jobDescriptionError"
+				style="color: red;" class="error small"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" ng-click="updateJob()">Update</button>
+	</form>
+
+	<div class="modal fade" id="updateJobSuccessfulModal">
+		<div class="modal-dialog modal modal-dialog-centered"">
+			<div class="modal-content alert alert-success"
+				style="background-color: #d4edda;">
+
+				<!-- Add Job Modal body -->
+				<div class="modal-body">
+					<span><i class="far fa-check-circle"></i> Your job was
+						updated successfully.</span>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

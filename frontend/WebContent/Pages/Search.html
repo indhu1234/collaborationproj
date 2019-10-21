@@ -1,0 +1,130 @@
+<div ng-controller="SearchController">
+	<!-- Nav tabs -->
+	<ul class="nav nav-tabs nav-justified" role="tablist">
+		<li class="nav-item"><a class="nav-link active" data-toggle="tab"
+			style="cursor: pointer;" data-target="#blogs">Blogs <span
+				class="badge {{blogResults.length>0?'badge-primary':'badge-secondary'}}">{{blogResults.length}}</span></a></li>
+		<li class="nav-item"><a class="nav-link" data-toggle="tab"
+			style="cursor: pointer;" data-target="#forums">Forums <span
+				class="badge {{forumResults.length>0?'badge-primary':'badge-secondary'}}">{{forumResults.length}}</span></a></li>
+		<li class="nav-item"><a class="nav-link" data-toggle="tab"
+			style="cursor: pointer;" data-target="#jobs">Jobs <span
+				class="badge {{jobResults.length>0?'badge-primary':'badge-secondary'}}">{{jobResults.length}}</span></a></li>
+		<li class="nav-item"><a class="nav-link" data-toggle="tab"
+			style="cursor: pointer;" data-target="#users">Users <span
+				class="badge {{userResults.length>0?'badge-primary':'badge-secondary'}}">{{userResults.length}}</span></a></li>
+	</ul>
+	<!-- Tab panes -->
+	<div class="tab-content">
+		<div id="blogs" class=" tab-pane active">
+			<div id="blogAccordion" ng-show="blogResults.length > 0">
+				<div ng-repeat="blog in blogResults">
+					<div class="card">
+						<div class="card-header">
+							<a class="card-link" data-toggle="collapse"
+								data-target="#collapse{{$index+1}}">{{blog.blogTitle}}</a><br>
+							<span class="small"> Created by {{blog.username}} on
+								{{blog.createdDate}}</span>
+						</div>
+						<div id="collapse{{$index+1}}" class="collapse"
+							data-parent="#blogAccordion">
+							<div class="card-body">{{blog.blogContent}}</div>
+							<div class="card-footer small" style="color: #8e8e8e;">
+								<div class="d-flex justify-content-between">
+									<a ng-click="showBlog(blog.blogId)" href="">View Blog</a> <span
+										ng-controller="BlogCommentController"
+										ng-init="getBlogCommentList(blog.blogId)">{{blog.likes}}
+										Likes | {{blog.dislikes}} Dislikes |
+										{{blogCommentList.length}} Comments</span>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-hide="blogResults.length">
+				<span>No results.</span>
+			</div>
+		</div>
+		<div id="forums" class=" tab-pane fade">
+			<div id="forumAccordion" ng-show="forumResults.length > 0">
+				<div ng-repeat="forum in forumResults">
+					<div class="card">
+						<div class="card-header">
+							<a class="card-link" data-toggle="collapse"
+								data-target="#collapse{{$index+1}}">{{forum.forumTitle}}</a><br>
+							<span class="small"> Created by {{forum.username}} on
+								{{forum.createdDate}}</span>
+						</div>
+						<div id="collapse{{$index+1}}" class="collapse"
+							data-parent="#forumAccordion">
+							<div class="card-body">{{forum.forumContent}}</div>
+							<div class="card-footer small" style="color: #8e8e8e;">
+								<div class="d-flex justify-content-between">
+									<a ng-click="showForum(forum.forumId)" href="">View Forum</a> <span
+										ng-controller="ForumCommentController"
+										ng-init="getForumCommentList(forum.forumId)">
+										{{forumCommentList.length}} Comments</span>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-hide="forumResults.length">
+				<span>No results.</span>
+			</div>
+		</div>
+		<div id="jobs" class=" tab-pane fade">
+			<div id="jobAccordion" ng-show="jobResults.length > 0">
+				<div ng-repeat="job in jobResults">
+					<div class="card">
+						<div class="card-header">
+							<a class="card-link" data-toggle="collapse"
+								data-target="#collapse{{$index+1}}">{{job.jobDesignation}}</a><br>
+							<span class="small"> Created by {{job.username}} on
+								{{job.postedDate}}</span>
+						</div>
+						<div id="collapse{{$index+1}}" class="collapse"
+							data-parent="#jobAccordion">
+							<div class="card-body">{{job.jobDescription}}</div>
+							<div class="card-footer small" style="color: #8e8e8e;">
+								<div class="d-flex justify-content-between">
+									<a ng-click="showJob(job.jobId)" href="">View Job</a> <span>job
+										application count</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-hide="jobResults.length">
+				<span>No results.</span>
+			</div>
+		</div>
+		<div id="users" class="tab-pane fade">
+			<div class="d-flex flex-wrap" ng-show="userResults.length>0">
+				<div ng-repeat="user in userResults" class="user my-2"
+					style="width: 50%;">
+					<div class="d-flex">
+						<img src="{{user.profilePicUrl}}" class="mr-2"
+							style="width: 80px; height: 80px;" />
+						<div class="d-flex flex-column" ng-controller="FriendController">
+							<span><strong>{{user.firstName+'
+									'+user.lastName}}</strong></span>
+							<button class="btn btn-sm btn-primary"
+								ng-show="user.friendStatus==undefined"
+								ng-click="sendFriendReq(user.username)">Add Friend</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div ng-hide="userResults.length>0">
+				<span>No results.</span>
+			</div>
+		</div>
+	</div>
+</div>

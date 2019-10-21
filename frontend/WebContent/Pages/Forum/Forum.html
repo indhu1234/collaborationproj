@@ -1,0 +1,142 @@
+<div ng-controller="ForumController" ng-init="getForums()">
+	<div id="forum-menu" class="d-flex justify-content-between">
+		<ul class="nav nav-pills" role="tablist">
+			<li class="nav-item sub-nav-item"><a class="nav-link small"
+				data-toggle="pill" onclick="forumMenuSwitch(this.id)"
+				id="tab-AllForums" href="">All Forums</a></li>
+			<li class="nav-item sub-nav-item"><a
+				class="nav-link small active" data-toggle="pill"
+				onclick="forumMenuSwitch(this.id)" id="tab-YourForums" href="">Your
+					Forums</a></li>
+		</ul>
+
+		<div>
+			<button class="btn btn-sm btn-success" data-toggle="modal"
+				data-target="#addForumModal"
+				onclick="document.getElementById('addForumForm').reset()">
+				<i class="fas fa-plus mr-1"></i>Add
+			</button>
+			<!-- Add Forum Modal -->
+			<div class="modal fade" id="addForumModal">
+				<div class="modal-dialog modal-lg modal-dialog-centered"">
+					<div class="modal-content">
+
+						<!-- Add Forum Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Create A New Forum</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<!-- Add Forum Modal body -->
+						<div class="modal-body">
+							<form id="addForumForm">
+								<div class="form-group">
+									<label>Title:</label> <input type="text" name="forumTitle"
+										ng-model="forum.forumTitle" class="form-control">
+										<span id="forumTitleError" style="color:red;" class="error small"></span>
+								</div>
+								<div class="form-group">
+									<label>Content:</label>
+									<textarea name="forumContent" ng-model="forum.forumContent"
+										class="form-control"></textarea>
+										<span id="forumContentError" style="color:red;" class="error small"></span>
+								</div>
+								<button ng-click="addForum()" type="submit"
+									class="btn btn-primary">Create</button>
+							</form>
+						</div>
+
+						<!-- Add Forum Modal footer -->
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="modal fade" id="addForumSuccessfulModal">
+				<div class="modal-dialog modal modal-dialog-centered"">
+					<div class="modal-content alert alert-success"
+						style="background-color: #d4edda;">
+
+						<!-- Add Forum Modal body -->
+						<div class="modal-body">
+							<span><i class="far fa-check-circle"></i> Your forum was
+								created successfully. It will be made public once it is approved.</span>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a ng-controller="ForumController" ng-show="currentUser.role=='admin'"
+				href="#/manageForum"><button class="btn btn-sm btn-warning">
+					<i class="fas fa-wrench mr-1"></i>Manage
+				</button></a>
+		</div>
+	</div>
+
+	<div id="tabPane-AllForums" style="display: none;">
+		<div ng-hide="forumList.length > 0" class="bg-block rounded">There are no forums.</div>
+		<div id="accordion" ng-show="forumList.length > 0">
+			<div class="bg-block rounded" ng-repeat="forum in forumList" ng-show="forum.status=='A'">
+				<div class="card">
+					<div class="card-header">
+						<a class="card-link" data-toggle="collapse"
+							data-target="#collapse{{$index+1}}">{{forum.forumTitle}}</a><br>
+						<span class="small"> Created by {{forum.username}} on
+							{{forum.createdDate}}</span>
+					</div>
+					<div id="collapse{{$index+1}}" class="collapse"
+						data-parent="#accordion">
+						<div class="card-body">
+							{{forum.forumContent.substring(0,200)+'...'}}</div>
+						<div class="card-footer small" style="color: #8e8e8e;">
+							<div class="d-flex justify-content-between">
+								<a ng-click="showForum(forum.forumId)" href="">Open Forum</a> <span
+									ng-controller="ForumCommentController"
+									ng-init="getForumCommentList(forum.forumId)">{{forumCommentList.length}} Comments</span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="tabPane-YourForums">
+		<div ng-hide="userForumList.length>0" class="bg-block rounded">There are no forums.</div>
+		<div class="table-responsive" ng-show="userForumList.length>0">
+			<table class="table table-striped table-hover table-bordered"
+				style="margin-bottom: unset;">
+				<thead class="thead-light">
+					<tr>
+						<th>Title</th>
+						<th>Date / Time</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="forum in userForumList" id="forumRow{{forum.forumId}}"
+						ng-show="forum.username==currentUser.username">
+						<td><a ng-click="showForum(forum.forumId)" href="">{{forum.forumTitle}}</a></td>
+						<td>{{forum.createdDate}}</td>
+						<td><span ng-show="forum.status=='A'">Approved</span> <span
+							ng-show="forum.status=='R'">Rejected</span> <span
+							ng-show="forum.status=='P'">Pending</span></td>
+						<td><div class="d-flex">
+								<a href="#/editForum?id={{forum.forumId}}" class=" mr-2"><i
+									class="fas fa-edit" title="Edit" style="color: #343a40;"></i></a><a
+									href="" ng-click="deleteForum(forum.forumId)" class=" mr-2"><i
+									class="fas fa-trash-alt" title="Delete" style="color: #343a40;"></i></a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
